@@ -1,11 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Animation Example</title>
+    <style>
+        #animateBox {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            position: absolute;
+            top: 50px;
+            left: 0;
+        }
+    </style>
 </head>
 <body>
-  
+    <div id="animateBox"></div>
+    <script>
+        // JavaScript 코드 (HTML 내부에 포함)
+        function moveElement(element, targetPosition, step) {
+            // 현재 위치를 얻음 (초기 값 설정)
+            let currentPosition = parseInt(element.style.left, 10) || 0;
+
+            // 재귀적으로 이동
+            function animate() {
+              //이런거 생각 못함 우와
+                if ((step > 0 && currentPosition < targetPosition) || 
+                    (step < 0 && currentPosition > targetPosition)) {
+                    currentPosition += step;
+                    element.style.left = currentPosition + 'px';
+                    setTimeout(animate, 20); // 20ms 후에 다시 호출
+                }
+            }
+            
+            animate(); // 애니메이션 시작
+        }
+
+        const animateBox = document.getElementById('animateBox');
+        let movingRight = true;
+
+        animateBox.addEventListener('click', function() {
+            if (movingRight) {
+                moveElement(animateBox, 500, 5); // 500px까지 5px씩 이동
+            } else {
+                moveElement(animateBox, 0, -5); // 0px까지 -5px씩 이동
+            }
+            movingRight = !movingRight; // 방향 전환
+        });
+    </script>
 </body>
 </html>
